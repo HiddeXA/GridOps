@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
@@ -17,10 +18,10 @@ defineProps<{
 
 <template>
     <AuthLayout
-        title="Forgot password"
-        description="Enter your email to receive a password reset link"
+        title="Wachtwoord vergeten"
+        description="Vul je e-mailadres in om een link te ontvangen voor het herstellen van je wachtwoord"
     >
-        <Head title="Forgot password" />
+        <Head title="Wachtwoord vergeten" />
 
         <div
             v-if="status"
@@ -32,14 +33,14 @@ defineProps<{
         <div class="space-y-6">
             <Form v-bind="email.form()" v-slot="{ errors, processing }">
                 <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
+                    <Label for="email">E-mailadres</Label>
                     <Input
                         id="email"
                         type="email"
                         name="email"
                         autocomplete="off"
                         autofocus
-                        placeholder="email@example.com"
+                        placeholder="email@voorbeeld.nl"
                     />
                     <InputError :message="errors.email" />
                 </div>
@@ -54,14 +55,14 @@ defineProps<{
                             v-if="processing"
                             class="h-4 w-4 animate-spin"
                         />
-                        Email password reset link
+                        Verstuur herstel-link
                     </Button>
                 </div>
             </Form>
 
             <div class="space-x-1 text-center text-sm text-muted-foreground">
-                <span>Or, return to</span>
-                <TextLink :href="login()">log in</TextLink>
+                <span>Of, ga terug naar</span>
+                <TextLink :href="login()">inloggen</TextLink>
             </div>
         </div>
     </AuthLayout>

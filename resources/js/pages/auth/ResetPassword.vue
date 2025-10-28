@@ -4,89 +4,82 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { update } from '@/routes/password';
+import { store } from '@/routes/password';
 import { Form, Head } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
-import { ref } from 'vue';
 
-const props = defineProps<{
-    token: string;
+defineProps<{
     email: string;
+    token: string;
 }>();
-
-const inputEmail = ref(props.email);
 </script>
 
 <template>
     <AuthLayout
-        title="Reset password"
-        description="Please enter your new password below"
+        title="Wachtwoord herstellen"
+        description="Voer je nieuwe wachtwoord in"
     >
-        <Head title="Reset password" />
+        <Head title="Wachtwoord herstellen" />
 
         <Form
-            v-bind="update.form()"
-            :transform="(data) => ({ ...data, token, email })"
-            :reset-on-success="['password', 'password_confirmation']"
+            v-bind="store.form()"
             v-slot="{ errors, processing }"
+            class="space-y-6 text-white"
         >
-            <div class="grid gap-6">
-                <div class="grid gap-2">
-                    <Label for="email">Email</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        name="email"
-                        autocomplete="email"
-                        v-model="inputEmail"
-                        class="mt-1 block w-full"
-                        readonly
-                    />
-                    <InputError :message="errors.email" class="mt-2" />
-                </div>
-
-                <div class="grid gap-2">
-                    <Label for="password">Password</Label>
-                    <Input
-                        id="password"
-                        type="password"
-                        name="password"
-                        autocomplete="new-password"
-                        class="mt-1 block w-full"
-                        autofocus
-                        placeholder="Password"
-                    />
-                    <InputError :message="errors.password" />
-                </div>
-
-                <div class="grid gap-2">
-                    <Label for="password_confirmation">
-                        Confirm Password
-                    </Label>
-                    <Input
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        autocomplete="new-password"
-                        class="mt-1 block w-full"
-                        placeholder="Confirm password"
-                    />
-                    <InputError :message="errors.password_confirmation" />
-                </div>
-
-                <Button
-                    type="submit"
-                    class="mt-4 w-full"
-                    :disabled="processing"
-                    data-test="reset-password-button"
-                >
-                    <LoaderCircle
-                        v-if="processing"
-                        class="h-4 w-4 animate-spin"
-                    />
-                    Reset password
-                </Button>
+            <div class="grid gap-2">
+                <Label for="email">E-mailadres</Label>
+                <Input
+                    id="email"
+                    type="email"
+                    name="email"
+                    :value="email"
+                    readonly
+                    disabled
+                />
+                <InputError :message="errors.email" />
             </div>
+
+            <div class="grid gap-2">
+                <Label for="password">Nieuw wachtwoord</Label>
+                <Input
+                    id="password"
+                    type="password"
+                    name="password"
+                    required
+                    autofocus
+                    autocomplete="new-password"
+                    placeholder="Nieuw wachtwoord"
+                />
+                <InputError :message="errors.password" />
+            </div>
+
+            <div class="grid gap-2">
+                <Label for="password_confirmation">Bevestig wachtwoord</Label>
+                <Input
+                    id="password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    required
+                    autocomplete="new-password"
+                    placeholder="Bevestig wachtwoord"
+                />
+                <InputError :message="errors.password_confirmation" />
+            </div>
+
+            <Input type="hidden" name="token" :value="token" />
+
+            <Button
+                type="submit"
+                class="w-full"
+                :disabled="processing"
+                data-test="reset-password-button"
+            >
+                <LoaderCircle
+                    v-if="processing"
+                    class="h-4 w-4 animate-spin"
+                />
+                Wachtwoord herstellen
+            </Button>
         </Form>
     </AuthLayout>
 </template>
