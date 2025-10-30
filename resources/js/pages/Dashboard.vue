@@ -1,47 +1,39 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
-import { dashboard } from '@/routes';
-import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
+import EventListItem from '@/components/EventListItem.vue';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard().url,
-    },
-];
+interface TrackDay {
+    id: number;
+    date: Date;
+    vehicle: string;
+    location: string;
+    personal_best_time: string;
+}
+
+const props = defineProps<{
+    trackDays: TrackDay[]
+}>();
+
 </script>
 
 <template>
     <Head title="Dashboard" />
-
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <header
+        class="w-screen bg-blue-500 text-white p-3"
+    >
+        <h2 class="text-2xl">TrackDays</h2>
+        <p>selecteer een track day voor meer informatie</p>
+    </header>
+    <div
+        class="md:grid-cols-2 grid-cols-1 m-auto w-2/3 text-white mt-5"
+    >
         <div
-            class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
+            class="row-span-2 grid grid-cols-1 space-y-3"
         >
-            <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div
-                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-                >
-                    <PlaceholderPattern />
-                </div>
-                <div
-                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-                >
-                    <PlaceholderPattern />
-                </div>
-                <div
-                    class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-                >
-                    <PlaceholderPattern />
-                </div>
-            </div>
-            <div
-                class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border"
-            >
-                <PlaceholderPattern />
-            </div>
+            <event-list-item v-for="x in props.trackDays" :key="x.id" :event-date="new Date(x.date)" :event-location="x.location" :personal-best-time="x.personal_best_time"/>
         </div>
-    </AppLayout>
+        <div></div>
+        <div></div>
+    </div>
+
 </template>
