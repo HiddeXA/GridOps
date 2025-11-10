@@ -11,7 +11,11 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('dashboard', [TrackDayController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('dashboard');
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('dashboard', [TrackDayController::class, 'index'])
+        ->name('dashboard');
+    Route::get('dashboard/track-day/{trackDayId}', [TrackDayController::class, 'show'])
+        ->name('dashboard.track-day');
+});
 
 require __DIR__.'/settings.php';

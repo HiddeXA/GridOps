@@ -5,7 +5,8 @@ import { ref } from 'vue';
 
 interface TrackDay {
     id: number;
-    date: Date;
+    start_date: Date;
+    end_date: Date;
     vehicle: string;
     location: string;
     personal_best_time: string;
@@ -26,7 +27,7 @@ function filteredTrackDays() {
 
     filteredTrackDays = filteredTrackDays.filter((trackDay) =>
         dateInput.value === null ||
-        trackDay.date.toString().includes(dateInput.value)
+        trackDay.start_date.toString().includes(dateInput.value)
     );
 
     return filteredTrackDays;
@@ -54,7 +55,7 @@ function filteredTrackDays() {
         <div
             class="row-span-2 grid grid-cols-1 space-y-3"
         >
-            <event-list-item v-for="x in filteredTrackDays()" :key="x.id" :event-date="new Date(x.date)" :event-location="x.location" :personal-best-time="x.personal_best_time"/>
+            <event-list-item v-for="x in filteredTrackDays()" :href="`dashboard/track-day/${x.id}`" :key="x.id" :event-start-date="new Date(x.start_date)" :event-end-date="new Date(x.end_date)" :event-location="x.location" :personal-best-time="x.personal_best_time"/>
         </div>
     </div>
 

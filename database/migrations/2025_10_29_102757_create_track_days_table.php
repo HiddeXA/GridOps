@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('track_days', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->date('date');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
             $table->string('location');
             $table->string('vehicle')->nullable();
+            $table->string('notes')->nullable();
+            $table->string('facilities')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

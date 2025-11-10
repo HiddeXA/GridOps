@@ -26,9 +26,11 @@ class TrackDaySeeder extends Seeder
         ]);
 
         for ($i = 0; $i < 100; $i++) {
+            $trackDayDay = Carbon::now()->addDays(rand(30, 365));
             $trackDayId = DB::table('track_days')->insertGetId([
                 'user_id' => $userId,
-                'date' => Carbon::now()->addDays(rand(30, 365))->toDateString(),
+                'start_date' => $trackDayDay->toDateString(),
+                'end_date' => $trackDayDay->addHours(rand(8, 48))->toDateString(),
                 'location' => Str::random(10),
                 'vehicle' => Str::random(10),
             ]);
