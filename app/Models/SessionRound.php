@@ -10,4 +10,8 @@ class SessionRound extends Model
         'session_id',
         'lap_time'
     ];
+
+    protected $casts = [
+        'lap_time' => 'datetime:Y-m-d H:i:s.u',
+    ];
 }

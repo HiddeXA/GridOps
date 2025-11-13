@@ -27,18 +27,18 @@
             <h2
                 class="text-2xl col-span-2"
             >{{props.eventLocation}}</h2>
-            <p>Start datum: {{props.eventStartDate?.getDate() }} / {{props.eventStartDate?.getMonth() + 1 }} / {{props.eventStartDate?.getFullYear() }}</p>
+            <p>Datum: {{props.eventStartDate?.getDate() }} / {{props.eventStartDate?.getMonth() + 1 }} / {{props.eventStartDate?.getFullYear() }}</p>
             <div class="">
                 <p v-if="daysUntil > 0"
-                    class="bg-green-500 rounded-full w-2/5 ml-auto text-center px-1"
+                    class="bg-green-500 rounded-full w-3/5 ml-auto text-center px-1"
                 >Gepland</p>
 
                 <p v-if="daysUntil <= 0 && daysUntil >= daysUntil - eventLengthInDays"
-                    class="bg-amber-500 rounded-full w-2/5 ml-auto text-center px-1"
+                    class="bg-amber-500 rounded-full w-3/5 ml-auto text-center px-1"
                 >Bezig</p>
 
                 <p v-if="daysUntil < 0 - eventLengthInDays"
-                    class="bg-red-500 rounded-full w-2/5 ml-auto text-center px-1"
+                    class="bg-red-500 rounded-full w-3/5 ml-auto text-center px-1"
                 >Afgerond</p>
             </div>
             <p v-if="daysUntil >= 0"

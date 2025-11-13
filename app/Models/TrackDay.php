@@ -11,7 +11,11 @@ class TrackDay extends Model
     protected $fillable = [
         'date',
         'location',
-        'vehicle'
+        'vehicle',
+        'start_date',
+        'end_date',
+        'notes',
+        'facilities'
     ];
 
     protected $appends = [

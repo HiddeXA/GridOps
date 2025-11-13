@@ -35,4 +35,9 @@ class TrackDaySession extends Model
         return $this->hasMany(SessionRound::class);
     }
 
+    public function trackDay()
+    {
+        return $this->belongsTo(TrackDay::class);
+    }
+
 }

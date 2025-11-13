@@ -50,7 +50,7 @@ function filteredTrackDays() {
         <input v-model="dateInput" class="bg-white border border-gray rounded p-1" type="date">
     </div>
     <div
-        class="md:grid-cols-2 grid-cols-1 m-auto w-2/3 text-white mt-5"
+        class="md:grid-cols-2 grid-cols-1 m-auto w-11/12 md:w-2/3 text-white mt-5"
     >
         <div
             class="row-span-2 grid grid-cols-1 space-y-3"
