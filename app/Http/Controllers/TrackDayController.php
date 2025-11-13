@@ -13,7 +13,7 @@ class TrackDayController extends Controller
 {
     public function index()
     {
-        $trackDays = Auth::user()->trackDays->sortByDesc('start_date');
+        $trackDays = TrackDay::orderBy('start_date')->where('user_id', Auth::id())->get();
 
         return Inertia::render('Dashboard')->with('trackDays', $trackDays->toArray());
     }
