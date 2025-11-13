@@ -53,12 +53,15 @@ function deleteRound(id: number) {
     })
 }
 
-function addRound(input: string) {
+function addRound(input: HTMLInputElement) {
     axios.post('/api/round/create', {
         'session_id': props.session.id,
-        'lap_time': input
+        'lap_time': input.value
     }).then(response => {
+        if (props.session.rounds == null) props.session.rounds = [];
+
         props.session.rounds.push(response.data);
+        input.value = '';
     })
 
 }
@@ -95,7 +98,7 @@ function addRound(input: string) {
             placeholder="00:00.000"
             maxlength="9"
 
-            v-on:change="addRound(($event.target as HTMLInputElement).value)"
+            v-on:change="addRound(($event.target as HTMLInputElement))"
         >
     </div>
 </template>

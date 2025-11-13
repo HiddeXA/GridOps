@@ -2,6 +2,10 @@
 
 import SessionList from '@/components/SessionList.vue';
 import axios from 'axios';
+import { VueDatePicker } from '@vuepic/vue-datepicker';
+import { nlBE } from 'date-fns/locale';
+import { ref } from 'vue';
+import { Link } from '@inertiajs/vue3';
 
 interface TrackDay {
     id: number;
@@ -32,7 +36,15 @@ const props = defineProps<{
     trackDay: TrackDay;
 }>();
 
-function updateTrackDay(trackDay: TrackDay) {
+const datePickerFormat = {
+    input: 'dd.MM.yyyy - HH:mm',
+    preview: 'dd.MM.yyyy - HH:mm',
+};
+
+const start_date = ref(new Date(props.trackDay.start_date));
+const end_date = ref(new Date(props.trackDay.end_date));
+
+function updateTrackDay(trackDay: TrackDay = props.trackDay) {
 
     axios.post(`/api/track-day/update/${trackDay.id}`, trackDay)
         .then(response => {
@@ -45,12 +57,17 @@ function updateTrackDay(trackDay: TrackDay) {
 </script>
 
 <template>
+    <Link
+        href="/dashboard"
+    >
+        <p class="bg-blue-500 rounded text-2xl text-white w-fit p-2 m-5" >Terug naar overzicht</p>
+    </Link>
     <div
         class="mt-5 mb-2 bg-gray-800 border-black border-2 rounded w-2/3 mx-auto text-center text-white"
     >
         <input
-            class="text-center"
-            :value="props.trackDay.location"
+            class="text-center border-gray-300 rounded"
+            v-model="props.trackDay.location"
             v-on:change="updateTrackDay(props.trackDay = {...props.trackDay, location: ($event.target as HTMLInputElement).value})"
         >
     </div>
@@ -61,8 +78,8 @@ function updateTrackDay(trackDay: TrackDay) {
         <div
             class="col-span-2 bg-gray-800 border-black border-2 rounded w-4/5 mx-auto text-white p-2 space-y-2"
         >
-            <p>Van: <input v-on:change="updateTrackDay(props.trackDay = {...props.trackDay, start_date: ($event.target as HTMLInputElement).value })" :value="trackDay.start_date"  type="datetime-local"></p>
-            <p>Tot: <input v-on:change="updateTrackDay(props.trackDay = {...props.trackDay, end_date: ($event.target as HTMLInputElement).value })" :value="trackDay.end_date"  type="datetime-local"></p>
+            <p class="w-fit" >Van: <VueDatePicker :formats="datePickerFormat" :locale="nlBE" v-model="start_date" @update:model-value="updateTrackDay(props.trackDay = {...props.trackDay, start_date: start_date })" /></p>
+            <p class="w-fit" >Tot: <VueDatePicker :formats="datePickerFormat" :locale="nlBE" v-model="end_date" @update:model-value="updateTrackDay(props.trackDay = {...props.trackDay, end_date: end_date })" /></p>
             <p class="text-yellow-300">Voertuig: <input v-on:change="updateTrackDay(props.trackDay = {...props.trackDay, vehicle: ($event.target as HTMLInputElement).value })" :value="trackDay.vehicle" type="text" ></p>
             <p class="text-green-500" >Snelste tijd:  {{trackDay.personal_best_time}}</p>
         </div>
@@ -93,6 +110,15 @@ function updateTrackDay(trackDay: TrackDay) {
     </div>
 
     <session-list :track-day-id="props.trackDay.id" :sessions="props.trackDay.sessions"/>
+    <div
+        class="mx-auto w-1/5 mt-20 text-center"
+    >
+        <a
+            :href="`/dashboard/delete-track-day/${props.trackDay.id}`"
+            class="bg-red-500 rounded text-white text-2xl p-4 w-1/5"
+        >Verwijder TrackDay</a>
+    </div>
+
 </template>
 
 <style scoped>

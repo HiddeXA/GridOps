@@ -21,9 +21,8 @@ class RoundController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $round->lap_time = "00:".$request->get('lap_time');
+        $round->lap_time = Carbon::createFromFormat("i:s.v", $request->get('lap_time'))->getTimestampMs();
         $round->save();
-        dd( $round);
 
         return response()->json($round);
 
@@ -58,8 +57,10 @@ class RoundController extends Controller
 
         $session = TrackDaySession::findOrFail($id);
 
+        $ms =  Carbon::createFromFormat("i:s.v", $request->get('lap_time'))->getTimestampMs();
+
         $round = $session->rounds()->create([
-            'lap_time' => $request->get('lap_time'),
+            'lap_time' => $ms,
         ]);
 
         return response()->json($round);

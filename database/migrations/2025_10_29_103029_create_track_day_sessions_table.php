@@ -18,7 +18,7 @@ return new class extends Migration
             $table->dateTime('end_time');
 
             $table->unsignedBigInteger('track_day_id');
-            $table->foreign('track_day_id')->references('id')->on('track_days');
+            $table->foreign('track_day_id')->references('id')->on('track_days')->onDelete('cascade');
         });
     }
 

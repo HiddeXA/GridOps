@@ -13,10 +13,10 @@
         },
         personalBestTime: String,
         href: String,
+        status: String
     })
 
     const daysUntil = Math.floor(Math.abs(new Date().getTime() - props.eventStartDate.getTime())/ (1000 * 3600 * 24));
-    const eventLengthInDays = Math.ceil(Math.abs(props.eventStartDate.getTime() - props.eventEndDate.getTime())/ (1000 * 3600 * 24));
 </script>
 
 <template>
@@ -29,15 +29,15 @@
             >{{props.eventLocation}}</h2>
             <p>Datum: {{props.eventStartDate?.getDate() }} / {{props.eventStartDate?.getMonth() + 1 }} / {{props.eventStartDate?.getFullYear() }}</p>
             <div class="">
-                <p v-if="daysUntil > 0"
+                <p v-if="status == 'planned'"
                     class="bg-green-500 rounded-full w-3/5 ml-auto text-center px-1"
                 >Gepland</p>
 
-                <p v-if="daysUntil <= 0 && daysUntil >= daysUntil - eventLengthInDays"
+                <p v-if="status == 'onGoing'"
                     class="bg-amber-500 rounded-full w-3/5 ml-auto text-center px-1"
                 >Bezig</p>
 
-                <p v-if="daysUntil < 0 - eventLengthInDays"
+                <p v-if="status == 'done'"
                     class="bg-red-500 rounded-full w-3/5 ml-auto text-center px-1"
                 >Afgerond</p>
             </div>

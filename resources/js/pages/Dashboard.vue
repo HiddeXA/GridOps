@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import EventListItem from '@/components/EventListItem.vue';
 import { ref } from 'vue';
 
@@ -10,6 +10,7 @@ interface TrackDay {
     vehicle: string;
     location: string;
     personal_best_time: string;
+    status: string;
 }
 
 const props = defineProps<{
@@ -48,6 +49,10 @@ function filteredTrackDays() {
     >
         <input v-model="searchInput" class="bg-white border border-gray rounded p-1" type="text" placeholder="Zoeken">
         <input v-model="dateInput" class="bg-white border border-gray rounded p-1" type="date">
+        <a
+            href="/dashboard/create-track-day"
+            class="bg-green-500 rounded p-3 text-white"
+        >Nieuwe TrackDay</a>
     </div>
     <div
         class="md:grid-cols-2 grid-cols-1 m-auto w-11/12 md:w-2/3 text-white mt-5"
@@ -55,7 +60,7 @@ function filteredTrackDays() {
         <div
             class="row-span-2 grid grid-cols-1 space-y-3"
         >
-            <event-list-item v-for="x in filteredTrackDays()" :href="`dashboard/track-day/${x.id}`" :key="x.id" :event-start-date="new Date(x.start_date)" :event-end-date="new Date(x.end_date)" :event-location="x.location" :personal-best-time="x.personal_best_time"/>
+            <event-list-item v-for="x in filteredTrackDays()" :href="`dashboard/track-day/${x.id}`" :key="x.id" :status="x.status" :event-start-date="new Date(x.start_date)" :event-end-date="new Date(x.end_date)" :event-location="x.location" :personal-best-time="x.personal_best_time"/>
         </div>
     </div>
 

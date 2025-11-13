@@ -18,6 +18,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         ->name('dashboard');
     Route::get('dashboard/track-day/{trackDayId}', [TrackDayController::class, 'show'])
         ->name('dashboard.track-day');
+    Route::get('dashboard/create-track-day', [TrackDayController::class, 'create']);
+    Route::get('dashboard/delete-track-day/{trackDayId}', [TrackDayController::class, 'destroy']);
 });
 
 Route::group([

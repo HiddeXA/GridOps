@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,6 @@ class TrackDay extends Model
 {
 
     protected $fillable = [
-        'date',
         'location',
         'vehicle',
         'start_date',
@@ -18,15 +18,43 @@ class TrackDay extends Model
         'facilities'
     ];
 
+    protected $attributes = [
+        'facilities' => '',
+        'notes' => '',
+        'vehicle' => '',
+        'location' => '',
+    ];
+
     protected $appends = [
         'personal_best_time',
+        'status',
     ];
+
 
     protected function personalBestTime() : Attribute
     {
         return Attribute::make(
             get: function () {
                 return $this->sessions->min('personal_best_time');
+            }
+        );
+    }
+
+    protected function status() : Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $now = now();
+                $startDate = new Carbon($this->start_date);
+                $endDate = new Carbon($this->end_date);
+
+                if ($now->isBefore($startDate)) {
+                    return 'planned';
+                } elseif ($now->isAfter($endDate)) {
+                    return 'done';
+                } else {
+                    return 'onGoing';
+                }
             }
         );
     }

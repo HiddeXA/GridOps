@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('session_rounds', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->time('lap_time', 6)->nullable();
+            $table->unsignedBigInteger('lap_time')->nullable();
 
             $table->unsignedBigInteger('track_day_session_id');
-            $table->foreign('track_day_session_id')->references('id')->on('track_day_sessions');
+            $table->foreign('track_day_session_id')->references('id')->on('track_day_sessions')->onDelete('cascade');
         });
     }
 

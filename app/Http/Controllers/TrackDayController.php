@@ -30,19 +30,37 @@ class TrackDayController extends Controller
 
     public function update(Request $request, $trackDayId){
         $data = $request->validate([
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'location' => 'required',
-            'vehicle' => 'required',
+            'start_date' => '',
+            'end_date' => '',
+            'location' => '',
+            'vehicle' => '',
             'notes' => 'nullable',
             'facilities' => 'nullable',
         ]);
+
+        $data['start_date'] = Carbon::parse($data['start_date'])->addHours(2); // temporary fix for timezones
+        $data['end_date'] = Carbon::parse($data['end_date'])->addHours(2);
 
         $trackDay = auth()->user()->trackDays()->where('id', $trackDayId)->first();
 
         $trackDay->update($data);
 
+    }
 
+    public function create(){
+        $trackday = auth()->user()->trackDays()->create([
+            'start_date' => Carbon::now(),
+            'end_date' => Carbon::now()->addHours(8),
+        ]);
+
+        return redirect()->route('dashboard.track-day', $trackday->id);
+    }
+
+    public function destroy($trackDayId){
+        $trackDay = auth()->user()->trackDays()->where('id', $trackDayId)->first();
+        $trackDay->delete();
+
+        return redirect()->route('dashboard');
     }
 
 }
