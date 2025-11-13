@@ -35,7 +35,15 @@ class TrackDay extends Model
     {
         return Attribute::make(
             get: function () {
-                return $this->sessions->min('personal_best_time');
+                $timeInMs = SessionRound::whereHas('session', function ($query) {
+                    $query->where('track_day_id', $this->id);
+                });
+
+                if ($timeInMs->count() === 0) { return null;}
+
+                $timeInMs = $timeInMs->orderBy('lap_time')->first()->lap_time;
+
+                return $timeInMs ? Carbon::createFromTimestampMs($timeInMs)->format('i:s.v') : null;
             }
         );
     }

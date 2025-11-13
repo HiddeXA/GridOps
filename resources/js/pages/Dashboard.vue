@@ -3,6 +3,8 @@ import { Head, router } from '@inertiajs/vue3';
 import EventListItem from '@/components/EventListItem.vue';
 import { ref } from 'vue';
 import { VueDatePicker } from '@vuepic/vue-datepicker';
+import { logout } from '@/routes';
+import TextLink from '@/components/TextLink.vue';
 
 interface TrackDay {
     id: number;
@@ -47,10 +49,19 @@ function filteredTrackDays() {
 <template>
     <Head title="Dashboard" />
     <header
-        class="w-screen bg-blue-500 text-white p-3"
+        class="w-screen bg-blue-500 text-white p-3 flex"
     >
-        <h2 class="text-2xl">TrackDays</h2>
-        <p>selecteer een track day voor meer informatie</p>
+        <div>
+            <h2 class="text-2xl">TrackDays</h2>
+            <p>selecteer een track day voor meer informatie</p>
+        </div>
+        <TextLink
+            :href="logout()"
+            as="button"
+            class="ml-auto mr-5 block bg-blue-900 px-3 rounded "
+        >
+            Log out
+        </TextLink>
     </header>
     <div
         class="w-2/3 m-auto mt-5 flex space-x-3"

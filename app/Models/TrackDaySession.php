@@ -24,11 +24,11 @@ class TrackDaySession extends Model
     {
         return Attribute::make(
             get: function () {
-                $minLapTime = $this->rounds()->min('lap_time');
+                $minLapTime = $this->rounds()->orderBy('lap_time')->first()->lap_time ?? null;
                 if (!$minLapTime) {
                     return null;
                 }
-                $time = new Carbon($minLapTime);
+                $time = Carbon::createFromTimestampMs($minLapTime);
                 return $time->format('i:s.v');
             }
 
@@ -37,7 +37,7 @@ class TrackDaySession extends Model
 
     public function rounds()
     {
-        return $this->hasMany(SessionRound::class);
+        return $this->hasMany(SessionRound::class, 'session_id');
     }
 
     public function trackDay()

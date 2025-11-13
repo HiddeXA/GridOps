@@ -21,4 +21,9 @@ class SessionRound extends Model
             }
         );
     }
+
+    public function session()
+    {
+        return $this->belongsTo(TrackDaySession::class);
+    }
 }

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('lap_time')->nullable();
 
-            $table->unsignedBigInteger('track_day_session_id');
-            $table->foreign('track_day_session_id')->references('id')->on('track_day_sessions')->onDelete('cascade');
+            $table->unsignedBigInteger('session_id');
+            $table->foreign('session_id')->references('id')->on('track_day_sessions')->onDelete('cascade');
         });
     }
 

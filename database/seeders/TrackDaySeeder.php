@@ -44,7 +44,7 @@ class TrackDaySeeder extends Seeder
 
                 for ($k = 0; $k < rand(5, 15); $k++) {
                     DB::table('session_rounds')->insert([
-                        'track_day_session_id' => $sessionId,
+                        'session_id' => $sessionId,
                         'lap_time' => (new Carbon(rand(60000, 120000)/1000))->getTimestampMs(),
                     ]);
                 }

@@ -81,7 +81,7 @@ function updateTrackDay(trackDay: TrackDay = props.trackDay) {
             <p class="w-fit" >Van: <VueDatePicker :formats="datePickerFormat" :locale="nlBE" v-model="start_date" @update:model-value="updateTrackDay(props.trackDay = {...props.trackDay, start_date: start_date })" /></p>
             <p class="w-fit" >Tot: <VueDatePicker :formats="datePickerFormat" :locale="nlBE" v-model="end_date" @update:model-value="updateTrackDay(props.trackDay = {...props.trackDay, end_date: end_date })" /></p>
             <p class="text-yellow-300">Voertuig: <input v-on:change="updateTrackDay(props.trackDay = {...props.trackDay, vehicle: ($event.target as HTMLInputElement).value })" :value="trackDay.vehicle" type="text" ></p>
-            <p class="text-green-500" >Snelste tijd:  {{trackDay.personal_best_time}}</p>
+            <p class="text-green-500" >Snelste tijd:  <p>{{trackDay.personal_best_time}}</p></p>
         </div>
 
     </div>

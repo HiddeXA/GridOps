@@ -21,7 +21,16 @@ class RoundController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $round->lap_time = Carbon::createFromFormat("i:s.v", $request->get('lap_time'))->getTimestampMs();
+        if (preg_match('/^(\d{2}):(\d{2})\.(\d{3})$/', $request->get('lap_time'), $matches)) {
+            $minutes = (int)$matches[1];
+            $seconds = (int)$matches[2];
+            $milliseconds = (int)$matches[3];
+
+            $round->lap_time = ($minutes * 60 * 1000) + ($seconds * 1000) + $milliseconds;
+        } else {
+            throw new \InvalidArgumentException('Ongeldig tijdformaat. Gebruik mm:ss.xxx');
+        }
+        
         $round->save();
 
         return response()->json($round);

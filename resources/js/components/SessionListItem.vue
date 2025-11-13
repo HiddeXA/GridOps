@@ -3,7 +3,8 @@
 import axios from 'axios';
 
 const emit = defineEmits<{
-    deleted: [id: number]
+    deleted: [id: number],
+
 }>();
 
 const props = defineProps<{
